@@ -11,5 +11,11 @@ public class BooksController {
     public String index(){
         return "books/index";
     }
+	
+	@GetMapping("/{id}")
+	public String book() {
+		return "books/book";
+	}
+	
 
 }
