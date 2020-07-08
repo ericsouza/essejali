@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -36,7 +37,12 @@ public class User implements UserDetails {
     @ManyToMany(fetch = FetchType.EAGER)
 	private List<Profile> profiles = new ArrayList<>();
     
-    public User(String email, String password, String nameUser, List<Profile> profiles) {
+    @OneToMany
+    private List<Book> books = new ArrayList<>();
+    
+    
+
+	public User(String email, String password, String nameUser, List<Profile> profiles) {
     	this.email = email;
     	this.password = password;
     	this.nameUser = nameUser;
@@ -92,8 +98,16 @@ public class User implements UserDetails {
     	return this.points;
     }
     
+    public void setPoints(int points) {
+    	this.points = points;
+    }
+    
     public String getTrophies() {
     	return this.trophies;
+    }
+    
+    public void setTrophies(String trophies) {
+    	this.trophies = trophies;
     }
     
     public List<String> getTrophiesList() {
@@ -102,6 +116,14 @@ public class User implements UserDetails {
         }
         return new ArrayList<>();
     }
+    
+    public List<Book> getBooks() {
+		return books;
+	}
+
+	public void setBooks(List<Book> books) {
+		this.books = books;
+	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

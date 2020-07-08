@@ -17,7 +17,7 @@
 		<tbody>
 			<tr th:each="book : ${books}">
 			
-				<td th:text="${book.getTitle()}" />	
+				<td><a th:href="@{${'/books/' + book.getId()}}" th:text="${book.getTitle()}"></a></td>	
 				<td th:text="${book.getBookAuthor()}" />	
 				<td th:text="${book.getPages()}" />	
 				

@@ -26,7 +26,8 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-		.antMatchers(HttpMethod.GET, "/").permitAll()
+		.antMatchers(HttpMethod.GET, "/read-check").permitAll()
+		.antMatchers(HttpMethod.GET, "/read-check/check").permitAll()
 		.anyRequest().authenticated()
 		.and().formLogin();
 	}
