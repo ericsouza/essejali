@@ -1,43 +1,61 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:insert="fragments.html :: headerfiles"></head>
+<head>
+<th:block th:include="fragments.html :: headerfiles">
+</th:block>
+<meta id="user-data" th:data-user-id="${#authentication.principal.id}" th:data-is-read="${isRead}" />
+<meta id="book-data" th:data-book-id="${book.getId()}" />
+</head>
 <body>
 <header th:insert="fragments.html :: nav"></header>
 <!-- Page content goes here -->
 <div class="container">
+<div>
+</div>
 	<div class="col-sm-12 mt-5">
 	    	<div class="row"><h3 th:text="${book.getTitle()}"></h3></div>
 	    	<div class="row"><h4 th:text="${book.getBookAuthor()}"></h4></div>
 	    	<div class="row"><img th:src="@{${'/img/' + book.getImageFilename()}}" /></div>
 	    	<div class="row"><p th:text="${book.getDescription()}"></p></div>	
-	    	<div class="row mt-5 mb-5"><button id="checkRead" class="btn-primary" onclick="checkBook()"><i id="checkReadIcon"></i>Marcar como lido</button></div>
+	    	<div class="row mt-5 mb-5">
+	    		<input id="checkRead" type="button" class="btn-success" value="Marcar como lido" onclick="checkBook()">
+	    	</div>
     </div>
 </div>
 <script type="text/javascript">
-function checkBook() {
+	const bookId = document.getElementById("book-data").dataset.bookId;
+	const userId = document.getElementById("user-data").dataset.userId;
+	const isRead = document.getElementById("user-data").dataset.isRead;
+	var checkRead = document.getElementById("checkRead");
 	
+	if (isRead == 1) {
+		checkRead.classList.toggle("btn-danger");
+    	checkRead.value = "Marcar como Não Lido";
+	}
 	
-	
-	
-	var xhr = new XMLHttpRequest();
-	var url = "http://127.0.0.1:8082/read-check?userId=1&bookId=1";
-	xhr.open("GET", url, true);
-	xhr.setRequestHeader("Content-Type", "application/json");
-	xhr.onreadystatechange = function () {
-	    if (xhr.readyState === 4 && xhr.status === 200) {
-	    	checkRead = document.getElementById("checkRead");
-	    	checkReadIcon = document.getElementById("checkReadIcon");
-	    	checkRead.classList.toggle("btn-success");
-	    	checkReadIcon.classList.toggle("fa");
-	    	checkReadIcon.classList.toggle("fa-check");
-	    	checkReadIcon.classList.toggle("pr-1");
-	    }
-	};
-	
-    xhr.send(null);
-	
-}
-
+	function checkBook() {
+		var xhr = new XMLHttpRequest();
+		var unread = "0";
+		var checkReadValue = "Marcar como Não Lido";
+		
+		if (checkRead.value == "Marcar como Não Lido") {
+			unread = "1";
+			checkReadValue = "Marcar como Lido";
+		}
+		
+		var url = "http://127.0.0.1:8082/read-check?userId=" + userId + "&bookId=" + bookId + "&unread=" + unread;
+		console.log(url);
+		xhr.open("GET", url, true);
+		xhr.setRequestHeader("Content-Type", "application/json");
+		xhr.onreadystatechange = function () {
+		    if (xhr.readyState === 4 && xhr.status === 200) {
+		    	checkRead.classList.toggle("btn-danger");
+		    	checkRead.value = checkReadValue;
+		    }
+		};	
+	    xhr.send(null);
+		
+	}
 </script>
 </body>
 </html>

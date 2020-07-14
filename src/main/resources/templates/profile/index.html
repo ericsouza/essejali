@@ -5,7 +5,60 @@
 <header th:insert="fragments.html :: nav"></header>
 <!-- Page content goes here -->
 <div class="container">
-    <p>This is User Profile\Index. Only authenticated people can see this</p>
+
+<div class="row mt-5 mb-5"><h3 th:text="${user.getName()}"></h3></div>
+<div class="row">
+	<div class="col-sm-4">
+	<p>Posição no Ranking</p>
+	<h1 th:text="${rankingPosition  + '°'}")></h1>
+	</div>
+	<div class="col-sm-4">
+	<p>Quantidade de Livros Lido</p>
+	<h1 th:text="${books.size()}"></h1>
+	</div>
+	<div class="col-sm-4">
+	<p>Pontuação</p>
+	<h1 th:text="${user.getPoints()}"></h1>
+	</div>
+</div>
+<div class="row mt-5 justify-content-center">
+	<h4>Meus Troféus</h4>
+</div>	
+<div class= "row justify-content-center" th:each="troph : ${trophies}">
+	<div class="card mb-3" style="max-width: 540px;" >
+	  <div class="row no-gutters">
+	    <div class="col-sm-4">
+	      <img th:src="@{~/img/trophy.png}" class="card-img-top m-3" alt="...">
+	    </div>
+	    <div class="col-md-8">
+	      <div class="card-body">
+	        <h5 class="card-title" th:text="${troph}"></h5>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+</div>
+
+<div class="row mt-5 justify-content-center">
+	<h4>Meus livros</h4>
+</div>	
+<div class= "row justify-content-center" th:each="book : ${books}">
+<div class="card mb-3" style="max-width: 540px;" >
+  <div class="row no-gutters">
+    <div class="col-sm-4">
+      <img th:src="@{${'/img/' + book.getImageFilename()}}" class="card-img-top" alt="...">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title" th:text="${book.getTitle()}"></h5>
+        <p class="card-text"  th:text="${book.getBookAuthor()}"></p>
+        <p class="card-text">Páginas: <small class="text-muted" th:text="${book.getPages()}"></small></p>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+	
 </div>
 </body>
 </html>

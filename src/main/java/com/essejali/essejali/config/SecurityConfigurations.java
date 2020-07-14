@@ -28,8 +28,12 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 		.antMatchers(HttpMethod.GET, "/read-check").permitAll()
 		.antMatchers(HttpMethod.GET, "/read-check/check").permitAll()
+		.antMatchers(HttpMethod.GET, "/h2-console/**").permitAll()
 		.anyRequest().authenticated()
 		.and().formLogin();
+		
+		http.csrf().disable();
+        http.headers().frameOptions().disable();
 	}
 	
 	

@@ -1,9 +1,13 @@
 package com.essejali.essejali.model;
 
+import static org.hibernate.annotations.CascadeType.DELETE_ORPHAN;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,6 +18,11 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.IndexColumn;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -37,10 +46,8 @@ public class User implements UserDetails {
     @ManyToMany(fetch = FetchType.EAGER)
 	private List<Profile> profiles = new ArrayList<>();
     
-    @OneToMany
-    private List<Book> books = new ArrayList<>();
-    
-    
+    @OneToMany(fetch = FetchType.EAGER)
+    private Set<Book> books = new HashSet<>();
 
 	public User(String email, String password, String nameUser, List<Profile> profiles) {
     	this.email = email;
@@ -117,11 +124,11 @@ public class User implements UserDetails {
         return new ArrayList<>();
     }
     
-    public List<Book> getBooks() {
+    public Set<Book> getBooks() {
 		return books;
 	}
 
-	public void setBooks(List<Book> books) {
+	public void setBooks(Set<Book> books) {
 		this.books = books;
 	}
 
