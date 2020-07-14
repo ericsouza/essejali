@@ -9,16 +9,18 @@
 <body>
 <header th:insert="fragments.html :: nav"></header>
 <!-- Page content goes here -->
+
 <div class="container">
 <div>
 </div>
 	<div class="col-sm-12 mt-5">
-	    	<div class="row"><h3 th:text="${book.getTitle()}"></h3></div>
-	    	<div class="row"><h4 th:text="${book.getBookAuthor()}"></h4></div>
-	    	<div class="row"><img th:src="@{${'/img/' + book.getImageFilename()}}" /></div>
-	    	<div class="row"><p th:text="${book.getDescription()}"></p></div>	
-	    	<div class="row mt-5 mb-5">
-	    		<input id="checkRead" type="button" class="btn-success" value="Marcar como lido" onclick="checkBook()">
+	    	<div class="row justify-content-center"><h3 th:text="${book.getTitle()}"></h3></div>
+	    	<div class="row justify-content-center"><h4 th:text="${book.getBookAuthor()}"></h4></div>
+	    	<div class="row justify-content-center"><h6 th:text="${'Páginas: ' + book.getPages()}"></h6></div>
+	    	<div class="row justify-content-center"><img th:src="@{${'/img/' + book.getImageFilename()}}" width="30%" class="img-fluid border"/></div>
+	    	<div class="row mt-5"><p  th:utext="${#strings.unescapeJava(#strings.replace(#strings.escapeJava(book.getDescription()),'\\n','&lt;br /&gt;'))}"></p></div>	
+	    	<div class="row mt-5 mb-5 justify-content-center">
+	    		<input id="checkRead" type="button" class="btn-success btn-lg" value="Esse Já Li!" onclick="checkBook()">
 	    	</div>
     </div>
 </div>
@@ -30,17 +32,17 @@
 	
 	if (isRead == 1) {
 		checkRead.classList.toggle("btn-danger");
-    	checkRead.value = "Marcar como Não Lido";
+    	checkRead.value = "Esse Ainda Não Li.";
 	}
 	
 	function checkBook() {
 		var xhr = new XMLHttpRequest();
 		var unread = "0";
-		var checkReadValue = "Marcar como Não Lido";
+		var checkReadValue = "Esse Ainda Não Li.";
 		
-		if (checkRead.value == "Marcar como Não Lido") {
+		if (checkRead.value == "Esse Ainda Não Li.") {
 			unread = "1";
-			checkReadValue = "Marcar como Lido";
+			checkReadValue = "Esse Já Li!";
 		}
 		
 		var url = "http://127.0.0.1:8082/read-check?userId=" + userId + "&bookId=" + bookId + "&unread=" + unread;
