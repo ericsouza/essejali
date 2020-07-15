@@ -44,13 +44,10 @@ public class ProfileController {
 			paginometro += book.getPages();
 		}
 		
-		
 		List<String> trophies = new ArrayList<String>();
 		if (user.get().getTrophies().length() > 1) {
 			trophies = Arrays.asList(user.get().getTrophies().split(","));
 		}
-		
-		
 		
 		model.addAttribute("user", user.get());
 		model.addAttribute("books", books);

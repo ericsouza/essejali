@@ -46,7 +46,7 @@ public class User implements UserDetails {
     @ManyToMany(fetch = FetchType.EAGER)
 	private List<Profile> profiles = new ArrayList<>();
     
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Book> books = new HashSet<>();
 
 	public User(String email, String password, String nameUser, List<Profile> profiles) {

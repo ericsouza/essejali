@@ -11,6 +11,7 @@
 				<th>Livro</th>
 				<th>Autor</th>
 				<th>Páginas</th>
+				<th>Gênero</th>
 			</tr>
 		</thead>
 		
@@ -20,6 +21,7 @@
 				<td><a th:href="@{${'/books/' + book.getId()}}" th:text="${book.getTitle()}"></a></td>	
 				<td th:text="${book.getBookAuthor()}" />	
 				<td th:text="${book.getPages()}" />	
+				<td th:text="${book.getStyle()}" />	
 				
 			</tr>
 		</tbody>		
